@@ -1,0 +1,14 @@
+Source: kanjipad
+Maintainer: Dafydd Harries <daf@debian.org>
+Build-Depends: libgtk2.0-dev, debhelper (>> 9), quilt
+Section: x11
+Priority: extra
+Standards-Version: 3.9.3
+
+Package: kanjipad
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: fonts-ipafont-gothic | fonts-japanese-gothic
+Description: handwriting recognition tool for Kanji
+ Kanjipad translates drawings by the user into Kanji characters. Translated
+ characters can be copied and pasted into other applications.

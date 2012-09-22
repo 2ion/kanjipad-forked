@@ -1,0 +1,13 @@
+#!/usr/bin/make -f
+
+#export DH_VERBOSE=1
+
+override_dh_auto_build:
+	dh_auto_build -- PREFIX=/usr
+
+override_dh_auto_install:
+	$(MAKE) DESTDIR=debian/kanjipad PREFIX=/usr install
+
+%:
+	dh $@ --with quilt
+

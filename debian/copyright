@@ -1,0 +1,11 @@
+This package was originally Debianised by Dafydd Harries
+<daf@parnassus.ath.cx>, on 1st November 2003.
+
+Originally obtained from <http://fishsoup.net/software/kanjipad/>.
+
+KanjiPad is Copyright 1997-1999, 2002 Owen Taylor, and licensed under
+the terms of the GNU Public License. On Debian systems, the full text of the
+GPL can be found at /usr/share/common-licenses/GPL.
+
+KanjiPad uses portions of a program called JStroke. JStroke is Copyright (C)
+1997 Robert E. Wells and is also licenced under the GPL.

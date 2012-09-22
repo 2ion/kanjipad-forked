@@ -1,0 +1,64 @@
+kanjipad (2.0.0-7) unstable; urgency=low
+
+  * Update maintainer address. Closes: #687815.
+  * Switch to dpkg-source 3.0 (quilt) format.
+  * Update to Debhelper compatibility version 9.
+  * Add ${misc:Depends} dependency.
+  * Link with -Wl,--as-needed to avoid unnecessary dependencies.
+  * Update standards version.
+
+ -- Dafydd Harries <daf@debian.org>  Tue, 18 Sep 2012 14:17:07 -0400
+
+kanjipad (2.0.0-6.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * debian/control
+    - use appropriate Japanese font (closes: #642943) 
+
+ -- Hideki Yamane <henrich@debian.org>  Wed, 12 Sep 2012 10:28:03 +0900
+
+kanjipad (2.0.0-6) unstable; urgency=low
+
+  * Makefile:
+    - Remove DISABLE_DEPRECATED flags to allow compilation with Gtk+ 2.4.
+      Closes: #250161.
+    - Uncommented use of -O2.
+
+ -- Dafydd Harries <daf@muse.19inch.net>  Fri, 21 May 2004 12:57:38 +0100
+
+kanjipad (2.0.0-5) unstable; urgency=low
+
+  * debian/control: Fix typo "tff-kochi-mincho".
+
+ -- Dafydd Harries <daf@muse.19inch.net>  Wed, 18 Feb 2004 17:05:57 +0000
+
+kanjipad (2.0.0-4) unstable; urgency=low
+
+  * debian/control: Add Recommends: ttf-kochi-gothic | tff-kochi-mincho. It
+    seems that these are good fonts for using Kanjipad with, and absence of
+    appropriate fonts makes Kanjipad not very usable. Closes: #227874.
+
+ -- Dafydd Harries <daf@muse.19inch.net>  Thu, 15 Jan 2004 12:31:33 +0000
+
+kanjipad (2.0.0-3) unstable; urgency=low
+
+  * Use Section: x11, rather than Section: gnome.
+
+ -- Dafydd Harries <daf@muse.19inch.net>  Tue,  6 Jan 2004 05:19:58 +0000
+
+kanjipad (2.0.0-2) unstable; urgency=low
+
+  * New email address.
+  * Use dh_shlibdeps.
+  * Tidy debian/rules a bit.
+  * Remove build-stamp.
+  * Acknowledgements to Robert McQueen for his help.
+
+ -- Dafydd Harries <daf@muse.19inch.net>  Tue,  6 Jan 2004 05:19:55 +0000
+
+kanjipad (2.0.0-1) unstable; urgency=low
+
+  * Initial Debianization.
+
+ -- Dafydd Harries <daf@parnassus.ath.cx>  Sat, 01 Nov 2003 16:53:42 +0000
+
