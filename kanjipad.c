@@ -451,7 +451,6 @@ fontselect_callback() {
 
         pango_font_description_free(fd);
         g_free(cf);
-        gtk_widget_show(karea);
     }
         
     gtk_widget_destroy(w);
