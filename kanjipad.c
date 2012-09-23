@@ -1,5 +1,8 @@
 /* KanjiPad - Japanese handwriting recognition front end
  * Copyright (C) 1997 Owen Taylor
+ * 
+ * Various additions in versions marked suffixed with  * f$version are 
+ * Copyright (C) 2012 Jens Oliver John
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
