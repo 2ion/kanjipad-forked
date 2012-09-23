@@ -34,6 +34,7 @@ typedef struct {
 } kp_wchar;
 
 #define WCHAR_EQ(a,b) (a.d[0] == b.d[0] && a.d[1] == b.d[1])
+#define VERSION "f-0.1"
 
 /* Wait for child process? */
 
@@ -68,6 +69,7 @@ static void clear_callback ();
 static void look_up_callback ();
 static void annotate_callback ();
 static void fontselect_callback ();
+static void aboutdialog_callback ();
 static void delegate_file ();
 static void delegate_exec ();
 static void delegate_stdout ();
@@ -81,15 +83,17 @@ static GtkItemFactoryEntry menu_items[] =
   { "/File/To _file",           NULL,           delegate_file                                           },
   { "/File/To _command",        NULL,           delegate_exec                                           },
   { "/File/sep2",               NULL,           NULL,               0, "<Separator>"                    },
+  { "/File/_About",             NULL,         aboutdialog_callback, 0, "<StockItem>",   GTK_STOCK_ABOUT },
+  { "/File/sep3",               NULL,           NULL,               0, "<Separator>"                    },
   { "/File/_Quit",              NULL,           exit_callback,      0, "<StockItem>",   GTK_STOCK_QUIT  },
   
-  { "/_Character",              NULL,           NULL,               0,  "<Branch>"                      },
-  { "/Character/_Lookup",       "<control>L",   look_up_callback                                        },
-  { "/Character/_Clear",        "<control>X",   clear_callback                                          },
-  { "/Character/_Save",         "<control>S",   save_callback                                           },
+  { "/_Character",              NULL,           NULL,               0, "<Branch>"                       },
+  { "/Character/_Lookup",       "<control>L",   look_up_callback,   0, "<StockItem>",   GTK_STOCK_FIND  },
+  { "/Character/_Clear",        "<control>X",   clear_callback,     0, "<StockItem>",   GTK_STOCK_CLEAR },
+  { "/Character/_Save",         "<control>S",   save_callback,      0, "<StockItem>",   GTK_STOCK_SAVE  },
   { "/Character/_Copy",         "<control>C",   copy_callback,      0, "<StockItem>",   GTK_STOCK_COPY  },
   { "/Character/sep1",          NULL,           NULL,               0, "<Separator>"                    },
-  { "/Character/Change _font",  NULL,           fontselect_callback                                     },
+  { "/Character/Change _font",  NULL,           fontselect_callback,0, "<StockItem>",   GTK_STOCK_SELECT_FONT },
   { "/Character/_Annotate",     NULL,           annotate_callback,  0, "<CheckItem>"                    }
 };
 
@@ -451,6 +455,32 @@ fontselect_callback() {
     }
         
     gtk_widget_destroy(w);
+}
+
+static void
+aboutdialog_callback() {
+    const char *authors[] = {
+        "Owen Taylor (original author)",
+        "Jens Oliver John <asterisk@2ion.de>",
+        NULL
+    };
+    GtkWidget *d = gtk_about_dialog_new();
+    gtk_window_set_position(GTK_WINDOW(d), GTK_WIN_POS_CENTER);
+
+    gtk_about_dialog_set_name(GTK_ABOUT_DIALOG(d), "KanjiPad");
+    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(d), VERSION);
+    gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(d),
+            "Copyright (c) 2012 Jens Oliver John");
+    gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(d),
+            "GNU General Public License v2");
+    gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(d), authors);
+    gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(d),
+            "A Japanese handwriting recognition tool");
+    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(d),
+            "https://github.com/2ion/kanjipad-f");
+    
+    gtk_dialog_run(GTK_DIALOG(d));
+    gtk_widget_destroy(d);
 }
 
 static void 
