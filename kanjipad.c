@@ -39,6 +39,8 @@ static GdkPixmap *kpixmap;
 GtkWidget *karea;
 GtkWidget *clear_button;
 GtkWidget *lookup_button;
+GtkWidget *clear_button_label;
+GtkWidget *lookup_button_label;
 GtkItemFactory *factory;
 
 #define MAX_GUESSES 10
@@ -62,24 +64,30 @@ static void save_callback ();
 static void clear_callback ();
 static void look_up_callback ();
 static void annotate_callback ();
+static void fontselect_callback ();
+static void delegate_file ();
+static void delegate_exec ();
+static void delegate_stdout ();
 
 static void update_sensitivity ();
 
 static GtkItemFactoryEntry menu_items[] =
 {
-  { "/_File", NULL, NULL, 0, "<Branch>" },
-  { "/File/_Quit", NULL, exit_callback, 0, "<StockItem>", GTK_STOCK_QUIT },
-
-  { "/_Edit", NULL, NULL, 0, "<Branch>" },
-  { "/Edit/_Copy", NULL, copy_callback, 0, "<StockItem>", GTK_STOCK_COPY },
+  { "/_File",                   NULL,           NULL,               0, "<Branch>"                       },
+  { "/File/To _stdout",         NULL,           delegate_stdout                                         },
+  { "/File/To _file",           NULL,           delegate_file                                           },
+  { "/File/To _command",        NULL,           delegate_exec                                           },
+  { "/File/sep2",               NULL,           NULL,               0, "<Separator>"                    },
+  { "/File/_Quit",              NULL,           exit_callback,      0, "<StockItem>",   GTK_STOCK_QUIT  },
   
-  { "/_Character", NULL, NULL, 0, "<Branch>" },
-  { "/Character/_Lookup", "<control>L", look_up_callback },
-  { "/Character/_Clear", "<control>X", clear_callback },
-  { "/Character/_Save", "<control>S", save_callback },
-  { "/Character/sep1", NULL, NULL, 0, "<Separator>" },
-  
-  { "/Character/_Annotate", NULL, annotate_callback, 0, "<CheckItem>" },
+  { "/_Character",              NULL,           NULL,               0,  "<Branch>"                      },
+  { "/Character/_Lookup",       "<control>L",   look_up_callback                                        },
+  { "/Character/_Clear",        "<control>X",   clear_callback                                          },
+  { "/Character/_Save",         "<control>S",   save_callback                                           },
+  { "/Character/_Copy",         "<control>C",   copy_callback,      0, "<StockItem>",   GTK_STOCK_COPY  },
+  { "/Character/sep1",          NULL,           NULL,               0, "<Separator>"                    },
+  { "/Character/Change _font",  NULL,           fontselect_callback                                     },
+  { "/Character/_Annotate",     NULL,           annotate_callback,  0, "<CheckItem>"                    }
 };
 
 static int nmenu_items = sizeof (menu_items) / sizeof (menu_items[0]);
@@ -412,6 +420,49 @@ annotate_callback ()
   pad_area_set_annotate (pad_area, !pad_area->annotate);
 }
 
+static void
+fontselect_callback() {
+    GtkWidget *w;
+    GtkStyle *s;
+    PangoFontDescription *fd;
+    gchar *cf;
+
+    s = gtk_widget_get_style(karea);
+    cf = pango_font_description_to_string(s->font_desc);
+    w = gtk_font_selection_dialog_new("Select kanji font");
+    gtk_font_selection_dialog_set_preview_text(GTK_FONT_SELECTION_DIALOG(w), "大事件の発端となるあの災難は");
+    gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(w), (const gchar*) cf);
+    g_free(cf);
+
+    if( gtk_dialog_run(GTK_DIALOG(w)) == GTK_RESPONSE_OK ) {
+        cf = gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(w));
+        fd = pango_font_description_from_string(cf);
+        
+        gtk_widget_modify_font(karea, fd);
+        gtk_widget_modify_font(lookup_button_label, fd);
+        gtk_widget_modify_font(clear_button_label, fd);
+
+        pango_font_description_free(fd);
+        g_free(cf);
+        gtk_widget_show(karea);
+    }
+        
+    gtk_widget_destroy(w);
+}
+
+static void 
+delegate_stdout () {
+    return;
+}
+
+static void
+delegate_exec () {
+}
+
+static void
+delegate_file () {
+}
+
 void
 pad_area_changed_callback (PadArea *area)
 {
@@ -562,11 +613,10 @@ main (int argc, char **argv)
   GtkWidget *main_vbox;
   GtkWidget *menubar;
   GtkWidget *vbox;
-  GtkWidget *label;
   
   GtkAccelGroup *accel_group;
 
-  PangoFontDescription *font_desc;
+  PangoFontDescription *karea_font_desc;
   int i;
   char *p;
 
@@ -657,39 +707,39 @@ main (int argc, char **argv)
   gtk_widget_set_events (karea, GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK);
 
 #ifdef G_OS_WIN32
-  font_desc = pango_font_description_from_string ("MS Gothic 18");
+  karea_font_desc = pango_font_description_from_string ("MS Gothic 18");
 #else
-  font_desc = pango_font_description_from_string ("Sans 18");
+  karea_font_desc = pango_font_description_from_string ("Sans 42");
 #endif  
-  gtk_widget_modify_font (karea, font_desc);
+  gtk_widget_modify_font (karea, karea_font_desc);
   
   gtk_box_pack_start (GTK_BOX (vbox), karea, TRUE, TRUE, 0);
   gtk_widget_show (karea);
 
   /* Buttons */
-  label = gtk_label_new ("\xe5\xbc\x95");
+  lookup_button_label = gtk_label_new ("\xe5\xbc\x95");
   /* We have to set the alignment here, since GTK+ will fail
    * to get the width of the string appropriately...
    */
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-  gtk_widget_modify_font (label, font_desc);
-  gtk_widget_show (label);
+  gtk_misc_set_alignment (GTK_MISC (lookup_button_label), 0.0, 0.5);
+  gtk_widget_modify_font (lookup_button_label, karea_font_desc);
+  gtk_widget_show (lookup_button_label);
   
   lookup_button = button = gtk_button_new ();
-  gtk_container_add (GTK_CONTAINER (button), label);
+  gtk_container_add (GTK_CONTAINER (button), lookup_button_label);
   g_signal_connect (button, "clicked",
 		    G_CALLBACK (look_up_callback), NULL);
 
   gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
   gtk_widget_show (button);
   
-  label = gtk_label_new ("\xe6\xb6\x88");
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-  gtk_widget_modify_font (label, font_desc);
-  gtk_widget_show (label);
+  clear_button_label = gtk_label_new ("\xe6\xb6\x88");
+  gtk_misc_set_alignment (GTK_MISC (clear_button_label), 0.0, 0.5);
+  gtk_widget_modify_font (clear_button_label, karea_font_desc);
+  gtk_widget_show (clear_button_label);
 
   clear_button = button = gtk_button_new ();
-  gtk_container_add (GTK_CONTAINER (button), label);
+  gtk_container_add (GTK_CONTAINER (button), clear_button_label);
   g_signal_connect (button, "clicked",
 		    G_CALLBACK (clear_callback), NULL);
 
@@ -698,7 +748,7 @@ main (int argc, char **argv)
 
   gtk_widget_show(window);
 
-  pango_font_description_free (font_desc);
+  pango_font_description_free(karea_font_desc);
 
   init_engine();
 
