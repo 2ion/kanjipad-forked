@@ -1,6 +1,13 @@
 KanjiPad enhancements
 ---------------------
 
+* Add about dialog and version number
+* Store/restore font selection from a standard location
+* Make kanjipad CLI/script usable with popen/exec/print style delegation
+  methods
+* Configuration options for delegations
+* Delegation controllable via CLI
+
 * GNOME-ize KanjiPad
 * Add command line options to point to the data file
 * Work some more on thinning and see if we can make it work
