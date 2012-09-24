@@ -456,6 +456,8 @@ fontselect_callback() {
         gtk_widget_modify_font(lookup_button_label, fd);
         gtk_widget_modify_font(clear_button_label, fd);
 
+        assert( g_settings_set_string(kp_settings, "kanjifont", (const gchar*) cf) == TRUE );
+
         pango_font_description_free(fd);
         g_free(cf);
     }
@@ -748,11 +750,9 @@ main (int argc, char **argv)
 
   gtk_widget_set_events (karea, GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK);
 
-#ifdef G_OS_WIN32
-  karea_font_desc = pango_font_description_from_string ("MS Gothic 18");
-#else
-  karea_font_desc = pango_font_description_from_string ("Sans 42");
-#endif  
+  p = g_settings_get_string(kp_settings, "kanjifont");
+  assert(p != NULL);
+  karea_font_desc = pango_font_description_from_string ((const char*) p);
   gtk_widget_modify_font (karea, karea_font_desc);
   
   gtk_box_pack_start (GTK_BOX (vbox), karea, TRUE, TRUE, 0);
