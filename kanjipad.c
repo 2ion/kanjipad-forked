@@ -2,7 +2,7 @@
  * Copyright (C) 1997 Owen Taylor
  * 
  * Various additions in versions marked suffixed with  * f$version are 
- * Copyright (C) 2012 Jens Oliver John
+ * Copyright (C) 2012 Jens Oliver John <asterisk@2ion.de>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
