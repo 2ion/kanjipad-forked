@@ -1,5 +1,5 @@
 <schemalist>
-    <schema id="de.2ion.kanjipad">
+    <schema id="de.2ion.kanjipad" path="/de/2ion/kanjipad/" gettext-domain="kanjipad">
         <key name="kanjifont" type="s">
             <default>"DejaVu Sans 18"</default>
         </key>

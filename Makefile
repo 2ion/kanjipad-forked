@@ -29,12 +29,13 @@ VERSION = 2.0.0
 OBJS = kpengine.o scoring.o util.o
 CFLAGS = $(OPTIMIZE) $(GTKINC) -DFOR_PILOT_COMPAT -DKP_LIBDIR=\"$(LIBDIR)\" -DBINDIR=\"$(BINDIR)\" $(shell dpkg-buildflags --get CFLAGS)
 
-all: kpengine kanjipad jdata.dat glib2schema
+all: kpengine kanjipad jdata.dat
 
 glib2schema:
 	mkdir -p $(SCHEMADIR)
 	cp schemas/kanjipad.gschema.xml $(SCHEMADIR)
 	glib-compile-schemas $(SCHEMADIR)
+	chmod 644 $(SCHEMADIR)/gschemas.compiled
 
 scoring.o: jstroke/scoring.c
 	$(CC) $(CFLAGS) -c -o scoring.o -Ijstroke jstroke/scoring.c

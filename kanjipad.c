@@ -20,6 +20,7 @@
  */
 
 #include <gtk/gtk.h>
+#include <assert.h>
 #include <ctype.h>
 #include <errno.h>
 #include <stdlib.h>
@@ -47,6 +48,11 @@ GtkWidget *clear_button_label;
 GtkWidget *lookup_button_label;
 GtkItemFactory *factory;
 
+/* Use GSettings to store/retrieve application settings.
+ * Requires the de.2ion.kanjipad schema to be installed. */
+GSettings *kp_settings;
+const char *kp_settings_schemaid = "de.2ion.kanjipad";
+
 #define MAX_GUESSES 10
 kp_wchar kanjiguess[MAX_GUESSES];
 int num_guesses = 0;
@@ -62,6 +68,7 @@ static GIOChannel *to_engine;
 static char *data_file = NULL;
 static char *progname;
 
+/* function prototypes */
 static void exit_callback ();
 static void copy_callback ();
 static void save_callback ();
@@ -674,6 +681,13 @@ main (int argc, char **argv)
 	}
     }
 
+  /* Init settings */
+
+  kp_settings = g_settings_new(kp_settings_schemaid);
+  assert(kp_settings != NULL);
+
+  /* Main window */
+
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_resizable (GTK_WINDOW (window), TRUE);
   gtk_window_set_default_size (GTK_WINDOW (window), 350, 350);
@@ -781,6 +795,10 @@ main (int argc, char **argv)
   init_engine();
 
   gtk_main();
+
+  /* Close settings */
+  g_settings_sync();
+  g_free(kp_settings);
 
   return 0;
 }
