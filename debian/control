@@ -1,5 +1,5 @@
-Source: kanjipad
-Maintainer: Dafydd Harries <daf@debian.org>
+Source: kanjipad-forked
+Maintainer: Jens Oliver John <asterisk@2ion.de>
 Build-Depends: libgtk2.0-dev, debhelper (>> 9), quilt
 Section: x11
 Priority: extra
@@ -12,3 +12,9 @@ Recommends: fonts-ipafont-gothic | fonts-japanese-gothic
 Description: handwriting recognition tool for Kanji
  Kanjipad translates drawings by the user into Kanji characters. Translated
  characters can be copied and pasted into other applications.
+ This version is a fork of the original kanjipad with various changes/additions:
+ * Font selection for kanji results,
+ * A history stack allows to build a word and copy it at once,
+ * Kanjipad can now be used in scripts or pipes, as it allows to delegate
+   results to stdout/arbitrary file or replace itself with a command invoked
+   with the stack as arguments.
