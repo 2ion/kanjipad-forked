@@ -6,6 +6,7 @@ GLIBLIBS=$(shell pkg-config --libs glib-2.0)
 
 PREFIX=/usr/local
 DATADIR=$(PREFIX)/share
+SCHEMADIR=$(DATADIR)/glib-2.0/schemas
 
 # location in which binaries are installed
 BINDIR=$(PREFIX)/bin
@@ -28,7 +29,12 @@ VERSION = 2.0.0
 OBJS = kpengine.o scoring.o util.o
 CFLAGS = $(OPTIMIZE) $(GTKINC) -DFOR_PILOT_COMPAT -DKP_LIBDIR=\"$(LIBDIR)\" -DBINDIR=\"$(BINDIR)\" $(shell dpkg-buildflags --get CFLAGS)
 
-all: kpengine kanjipad jdata.dat
+all: kpengine kanjipad jdata.dat glib2schema
+
+glib2schema:
+	mkdir -p $(SCHEMADIR)
+	cp schemas/kanjipad.gschema.xml $(SCHEMADIR)
+	glib-compile-schemas $(SCHEMADIR)
 
 scoring.o: jstroke/scoring.c
 	$(CC) $(CFLAGS) -c -o scoring.o -Ijstroke jstroke/scoring.c

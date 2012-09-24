@@ -1,7 +1,12 @@
 KanjiPad enhancements
 ---------------------
 
-* Add about dialog and version number
+* Draw results in a horizontal bottom bar
+* Visualize selection of a result
+* Add a history stack, where multiple selected kanji can be pushed to
+  and then delegated as a group. Pop/Push/Remove functions via j/k
+  selection.
+
 * Store/restore font selection from a standard location
 * Make kanjipad CLI/script usable with popen/exec/print style delegation
   methods

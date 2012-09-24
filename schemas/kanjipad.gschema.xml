@@ -1,0 +1,7 @@
+<schemalist>
+    <schema id="de.2ion.kanjipad">
+        <key name="kanjifont" type="s">
+            <default>"DejaVu Sans 18"</default>
+        </key>
+    </schema>
+</schemalist>

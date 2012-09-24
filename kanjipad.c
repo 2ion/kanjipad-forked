@@ -468,15 +468,11 @@ aboutdialog_callback() {
 
     gtk_about_dialog_set_name(GTK_ABOUT_DIALOG(d), "KanjiPad");
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(d), VERSION);
-    gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(d),
-            "Copyright (c) 2012 Jens Oliver John");
-    gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(d),
-            "GNU General Public License v2");
+    gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(d), "Copyright (c) 2012 Jens Oliver John");
+    gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(d), "GNU General Public License v2");
     gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(d), authors);
-    gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(d),
-            "A Japanese handwriting recognition tool");
-    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(d),
-            "https://github.com/2ion/kanjipad-f");
+    gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(d), "A Japanese handwriting recognition tool");
+    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(d), "https://github.com/2ion/kanjipad-f");
     
     gtk_dialog_run(GTK_DIALOG(d));
     gtk_widget_destroy(d);
