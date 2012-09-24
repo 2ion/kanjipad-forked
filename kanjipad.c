@@ -35,7 +35,7 @@ typedef struct {
 } kp_wchar;
 
 #define WCHAR_EQ(a,b) (a.d[0] == b.d[0] && a.d[1] == b.d[1])
-#define VERSION "f-0.1"
+#define VERSION "f-0.2"
 
 /* Wait for child process? */
 

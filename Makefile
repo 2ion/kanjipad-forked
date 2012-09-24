@@ -52,7 +52,7 @@ kanjipad: kanjipad.o padarea.o
 jdata.dat: jstroke/strokedata.h conv_jdata.pl
 	perl conv_jdata.pl < jstroke/strokedata.h > jdata.dat
 
-install: kanjipad kpengine jdata.dat
+install: kanjipad kpengine jdata.dat glib2schema
 	install -d $(DESTDIR)$(BINDIR)
 	install -m 0755 kanjipad $(DESTDIR)$(BINDIR)/kanjipad
 	install -m 0755 kpengine $(DESTDIR)$(BINDIR)/kpengine
