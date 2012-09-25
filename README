@@ -5,6 +5,16 @@ This is an improved, extended and polished fork of the original KanjiPad
 written by Owen Taylor. It remains a Japanese handwriting recognition
 tool. Please see README.old for eventually important information.
 
+Installation
+============
+
+The Debian package is as of now broken, hence simply run 'make install'.
+Important is that in order to satisfy glib2's GSettings class, you
+*must run at least* 'make glib2schema' to put - surprise - the config
+schema in the right place. Because of that, it works only if you have
+either /usr or /usr/local as a prefix or get glib2 to look for its
+schemas under your nondefault prefix. Sorry.
+
 Changelog & TODO
 ================
 
