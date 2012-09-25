@@ -3,5 +3,11 @@
         <key name="kanjifont" type="s">
             <default>"Sans 18"</default>
         </key>
+        <key name="delegatecmd" type="s">
+            <default>"notify-send kanjipad %s"</default>
+        </key>
+        <key name="delegatefile" type="s">
+            <default>"/dev/null"</default>
+        </key>
     </schema>
 </schemalist>

@@ -77,6 +77,7 @@ static void look_up_callback ();
 static void annotate_callback ();
 static void fontselect_callback ();
 static void aboutdialog_callback ();
+static void delegateconf_callback ();
 static void delegate_file ();
 static void delegate_exec ();
 static void delegate_stdout ();
@@ -86,19 +87,20 @@ static void update_sensitivity ();
 static GtkItemFactoryEntry menu_items[] =
 {
   { "/_File",                   NULL,           NULL,               0, "<Branch>"                       },
-  { "/File/To _stdout",         NULL,           delegate_stdout                                         },
-  { "/File/To _file",           NULL,           delegate_file                                           },
-  { "/File/To _command",        NULL,           delegate_exec                                           },
+  { "/File/To _stdout",         "p",           delegate_stdout                                         },
+  { "/File/To _file",           "f",           delegate_file                                           },
+  { "/File/To _command",        "e",           delegate_exec                                           },
   { "/File/sep2",               NULL,           NULL,               0, "<Separator>"                    },
+  { "/File/Configure delegation", NULL, delegateconf_callback, 0, "<StockItem>", GTK_STOCK_PREFERENCES },
   { "/File/_About",             NULL,         aboutdialog_callback, 0, "<StockItem>",   GTK_STOCK_ABOUT },
   { "/File/sep3",               NULL,           NULL,               0, "<Separator>"                    },
   { "/File/_Quit",              NULL,           exit_callback,      0, "<StockItem>",   GTK_STOCK_QUIT  },
   
   { "/_Character",              NULL,           NULL,               0, "<Branch>"                       },
-  { "/Character/_Lookup",       "<control>L",   look_up_callback,   0, "<StockItem>",   GTK_STOCK_FIND  },
-  { "/Character/_Clear",        "<control>X",   clear_callback,     0, "<StockItem>",   GTK_STOCK_CLEAR },
-  { "/Character/_Save",         "<control>S",   save_callback,      0, "<StockItem>",   GTK_STOCK_SAVE  },
-  { "/Character/_Copy",         "<control>C",   copy_callback,      0, "<StockItem>",   GTK_STOCK_COPY  },
+  { "/Character/_Lookup",       "<return>",   look_up_callback,   0, "<StockItem>",   GTK_STOCK_FIND  },
+  { "/Character/_Clear",        "x",   clear_callback,     0, "<StockItem>",   GTK_STOCK_CLEAR },
+  { "/Character/_Save",         "w",   save_callback,      0, "<StockItem>",   GTK_STOCK_SAVE  },
+  { "/Character/_Copy",         "c",   copy_callback,      0, "<StockItem>",   GTK_STOCK_COPY  },
   { "/Character/sep1",          NULL,           NULL,               0, "<Separator>"                    },
   { "/Character/Change _font",  NULL,           fontselect_callback,0, "<StockItem>",   GTK_STOCK_SELECT_FONT },
   { "/Character/_Annotate",     NULL,           annotate_callback,  0, "<CheckItem>"                    }
@@ -484,6 +486,50 @@ aboutdialog_callback() {
     gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(d), "https://github.com/2ion/kanjipad-f");
     
     gtk_dialog_run(GTK_DIALOG(d));
+    gtk_widget_destroy(d);
+}
+
+static void
+delegateconf_callback() {
+    GtkWidget *d, *c, *t;
+    GtkWidget *exec_label, *exec_entry;
+    GtkWidget *file_label, *file_fcbtn;
+    gchar *tmp;
+
+    exec_label = gtk_label_new("Command:");
+    exec_entry = gtk_entry_new();
+    gtk_entry_set_text(GTK_ENTRY(exec_entry),
+            (const gchar*) g_settings_get_string(kp_settings, "delegatecmd"));
+
+    file_label = gtk_label_new("Append to file:");
+    file_fcbtn = gtk_file_chooser_button_new("Select output file", GTK_FILE_CHOOSER_ACTION_OPEN);
+    gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(file_fcbtn),
+            (const gchar*) g_settings_get_string(kp_settings, "delegatefile"));
+
+    // FIXME: Table layout looks like nodesign
+    t = gtk_table_new(2, 2, TRUE);
+    gtk_table_attach(GTK_TABLE(t), exec_label, 0, 1, 0, 1, GTK_SHRINK, GTK_FILL, 0, 0);
+    gtk_table_attach_defaults(GTK_TABLE(t), exec_entry, 1, 2, 0, 1);
+    gtk_table_attach(GTK_TABLE(t), file_label, 0, 1, 1, 2, GTK_SHRINK, GTK_FILL, 0, 0);
+    gtk_table_attach_defaults(GTK_TABLE(t), file_fcbtn, 1, 2, 1, 2);
+    gtk_widget_show(exec_label);
+    gtk_widget_show(exec_entry);
+    gtk_widget_show(file_label);
+    gtk_widget_show(file_fcbtn);
+    gtk_widget_show(t);
+
+    d = gtk_dialog_new_with_buttons("Delegation configurations", NULL, GTK_DIALOG_MODAL,
+            GTK_STOCK_APPLY, GTK_RESPONSE_APPLY, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
+    c = gtk_dialog_get_content_area(GTK_DIALOG(d));
+    gtk_container_add(GTK_CONTAINER(c), GTK_WIDGET(t));
+
+    if( gtk_dialog_run(GTK_DIALOG(d)) == GTK_RESPONSE_APPLY ) {
+        tmp = gtk_entry_get_text(GTK_ENTRY(exec_entry));
+        assert( g_settings_set_string(kp_settings, "delegatecmd", (const gchar*) tmp) == TRUE );
+        tmp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_fcbtn));
+        assert( g_settings_set_string(kp_settings, "delegatefile", (const gchar*) tmp) == TRUE );
+        g_free(tmp);
+    }
     gtk_widget_destroy(d);
 }
 
