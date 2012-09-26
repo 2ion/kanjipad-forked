@@ -525,10 +525,13 @@ delegateconf_callback() {
 
     if( gtk_dialog_run(GTK_DIALOG(d)) == GTK_RESPONSE_APPLY ) {
         tmp = gtk_entry_get_text(GTK_ENTRY(exec_entry));
-        assert( g_settings_set_string(kp_settings, "delegatecmd", (const gchar*) tmp) == TRUE );
+        if(tmp != NULL)
+            assert( g_settings_set_string(kp_settings, "delegatecmd", (const gchar*) tmp) == TRUE );
         tmp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_fcbtn));
-        assert( g_settings_set_string(kp_settings, "delegatefile", (const gchar*) tmp) == TRUE );
-        g_free(tmp);
+        if(tmp != NULL) {
+            assert( g_settings_set_string(kp_settings, "delegatefile", (const gchar*) tmp) == TRUE );
+            g_free(tmp);
+        }
     }
     gtk_widget_destroy(d);
 }
