@@ -97,7 +97,7 @@ static GtkItemFactoryEntry menu_items[] =
   { "/File/_Quit",              NULL,           exit_callback,      0, "<StockItem>",   GTK_STOCK_QUIT  },
   
   { "/_Character",              NULL,           NULL,               0, "<Branch>"                       },
-  { "/Character/_Lookup",       "<return>",   look_up_callback,   0, "<StockItem>",   GTK_STOCK_FIND  },
+  { "/Character/_Lookup",       "l",   look_up_callback,   0, "<StockItem>",   GTK_STOCK_FIND  },
   { "/Character/_Clear",        "x",   clear_callback,     0, "<StockItem>",   GTK_STOCK_CLEAR },
   { "/Character/_Save",         "w",   save_callback,      0, "<StockItem>",   GTK_STOCK_SAVE  },
   { "/Character/_Copy",         "c",   copy_callback,      0, "<StockItem>",   GTK_STOCK_COPY  },
@@ -470,7 +470,7 @@ fontselect_callback() {
 static void
 aboutdialog_callback() {
     const char *authors[] = {
-        "Owen Taylor (original author)",
+        "Owen Taylor (original author) <otaylor@fishsoup.net>",
         "Jens Oliver John <asterisk@2ion.de>",
         NULL
     };
@@ -479,11 +479,10 @@ aboutdialog_callback() {
 
     gtk_about_dialog_set_name(GTK_ABOUT_DIALOG(d), "KanjiPad");
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(d), VERSION);
-    gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(d), "Copyright (c) 2012 Jens Oliver John");
-    gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(d), "GNU General Public License v2");
+    gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(d), "Copyright (c) 2012 Jens Oliver John\nLicensed under the GNU General Public License v2");
     gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(d), authors);
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(d), "A Japanese handwriting recognition tool");
-    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(d), "https://github.com/2ion/kanjipad-f");
+    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(d), "https://github.com/2ion/kanjipad-forked");
     
     gtk_dialog_run(GTK_DIALOG(d));
     gtk_widget_destroy(d);
@@ -524,7 +523,7 @@ delegateconf_callback() {
     gtk_container_add(GTK_CONTAINER(c), GTK_WIDGET(t));
 
     if( gtk_dialog_run(GTK_DIALOG(d)) == GTK_RESPONSE_APPLY ) {
-        tmp = gtk_entry_get_text(GTK_ENTRY(exec_entry));
+        tmp = (gchar*) gtk_entry_get_text(GTK_ENTRY(exec_entry));
         if(tmp != NULL)
             assert( g_settings_set_string(kp_settings, "delegatecmd", (const gchar*) tmp) == TRUE );
         tmp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_fcbtn));
