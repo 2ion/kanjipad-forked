@@ -9,5 +9,5 @@ override_dh_auto_install:
 	$(MAKE) DESTDIR=debian/kanjipad PREFIX=/usr install
 
 %:
-	dh $@ --with quilt
+	dh $@
 

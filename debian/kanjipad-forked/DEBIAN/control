@@ -1,14 +1,11 @@
-Source: kanjipad-forked
+Package: kanjipad-forked
+Version: 0.2
+Architecture: amd64
 Maintainer: Jens Oliver John <asterisk@2ion.de>
-Build-Depends: libgtk2.0-dev, debhelper (>> 9)
+Installed-Size: 26
+Recommends: fonts-ipafont-gothic | fonts-japanese-gothic
 Section: x11
 Priority: extra
-Standards-Version: 3.9.3
-
-Package: kanjipad-forked
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Recommends: fonts-ipafont-gothic | fonts-japanese-gothic
 Description: handwriting recognition tool for Kanji
  Kanjipad translates drawings by the user into Kanji characters. Translated
  characters can be copied and pasted into other applications.

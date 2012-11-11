@@ -1,18 +1,18 @@
 # Note that this is NOT a relocatable package
-Summary: KanjiPad
-Name: kanjipad
-Version: @VERSION@
+Summary: KanjiPad-forked
+Name: kanjipad-forked
+Version: 0.2
 Release: 1
 License: GPL
 Group: Applications/Utilities
-Source: http://fishsoup.net/software/kanjipad/kanjipad-%{version}.tar.gz
-URL: http://fishsoup.net/software/kanjipad/
-BuildRoot: /var/tmp/kanjipad-%{PACKAGE_VERSION}-root
+Source: https://github.com/2ion/kanjipad-forked/archive/master.tar.gz
+URL: https://github.com/2ion/kanjipad-forked
+BuildRoot: /var/tmp/kanjipad-forked-0.2-root
 
 %description
-KanjiPad is a tiny application that allows the user to enter 
+KanjiPad-forked is a tiny application that allows the user to enter 
 Japanese characters graphically. It uses the handwriting-recognition
-algorithm from Todd Rudick's program JavaDic.
+algorithm from Todd Rudick's program JavaDic. 
 
 %prep
 %setup -q
@@ -34,6 +34,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/*
 
 %changelog
+* Sun Nov 11 2012 Jens Oliver John <asterisk@2ion.de>
+- Version 0.2
+
 * Sun Aug 25 2002 Owen Taylor <otaylor@redhat.com>
 - Version 2.0.0, clean up spec file
 

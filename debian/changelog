@@ -1,3 +1,12 @@
+kanjipad-forked (0.2) unstable; urgency=low
+
+  * Forked source and renamed it kanjipad-forked
+  * Selectable font for lookup results
+  * Store settings permanently
+  * Added about dialog
+
+ -- Jens Oliver John <asterisk@2ion.de>  Sun, 11 Nov 2012 13:45:01 +0100
+
 kanjipad (2.0.0-7) unstable; urgency=low
 
   * Update maintainer address. Closes: #687815.
