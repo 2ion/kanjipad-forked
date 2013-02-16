@@ -32,10 +32,10 @@ CFLAGS = $(OPTIMIZE) $(GTKINC) -DFOR_PILOT_COMPAT -DKP_LIBDIR=\"$(LIBDIR)\" -DBI
 all: kpengine kanjipad jdata.dat
 
 glib2schema:
-	-mkdir -p $(SCHEMADIR)
-	-cp schemas/kanjipad.gschema.xml $(SCHEMADIR)
-	-glib-compile-schemas $(SCHEMADIR)
-	-chmod 644 $(SCHEMADIR)/gschemas.compiled
+	install -d ${SCHEMADIR}
+	install -m 644 schemas/kanjipad.gschema.xml ${SCHEMADIR}
+	glib-compile-schemas ${SCHEMADIR}
+	chmod 644 ${SCHEMADIR}/gschemas.compiled
 
 scoring.o: jstroke/scoring.c
 	$(CC) $(CFLAGS) -c -o scoring.o -Ijstroke jstroke/scoring.c

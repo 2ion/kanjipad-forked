@@ -50,7 +50,7 @@ pad_area_annotate_stroke (PadArea *area, GList *stroke, gint index)
 	  GdkRectangle update_area;
 
 	  sprintf (buffer, "%d", index);
-	  layout = gtk_widget_create_pango_layout (area->widget, buffer);
+	  layout = gtk_widget_create_pango_layout (GTK_WIDGET(area->widget), buffer);
 	  pango_layout_get_pixel_size (layout, &swidth, &sheight);
 
 	  r = sqrt(swidth*swidth + sheight*sheight);
